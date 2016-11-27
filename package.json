@@ -1,8 +1,8 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
-  "private": true,
+  "name": "ionic-tsartoolkit",
+  "author": "Hakan Dilek",
+  "homepage": "https://github.com/hakandilek/",
+  "private": false,
   "scripts": {
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
@@ -21,6 +21,7 @@
     "ionic-angular": "2.0.0-rc.3",
     "ionic-native": "2.2.3",
     "ionicons": "3.0.0",
+    "jsartoolkit": "0.0.0",
     "rxjs": "5.0.0-beta.12",
     "zone.js": "0.6.26"
   },
@@ -37,5 +38,5 @@
     "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [],
-  "description": "tsartoolkit: An Ionic project"
+  "description": "Ionic application using https://github.com/artoolkit/jsartoolkit5 with TypeScript"
 }

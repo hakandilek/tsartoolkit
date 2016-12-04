@@ -21,12 +21,14 @@
     "ionic-angular": "2.0.0-rc.3",
     "ionic-native": "2.2.3",
     "ionicons": "3.0.0",
-    "jsartoolkit5": "0.0.1",
+    "jsartoolkit5": "0.0.2",
     "rxjs": "5.0.0-beta.12",
+    "three": "^0.82.1",
     "zone.js": "0.6.26"
   },
   "devDependencies": {
     "@ionic/app-scripts": "0.0.45",
+    "@types/three": "0.0.27",
     "typescript": "2.0.6"
   },
   "cordovaPlugins": [

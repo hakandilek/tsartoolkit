@@ -1,5 +1,6 @@
 {
-  "name": "ionic-tsartoolkit",
+  "name": "tsartoolkit",
+  "version": "0.0.1",
   "author": "Hakan Dilek",
   "homepage": "https://github.com/hakandilek/",
   "license": "MIT License",

@@ -1,5 +1,5 @@
 {
-  "name": "tsartoolkit",
+  "name": "tsartoolkit-demo",
   "version": "0.0.1",
   "author": "Hakan Dilek",
   "homepage": "https://github.com/hakandilek/",
@@ -33,9 +33,9 @@
     "zone.js": "0.6.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.45",
+    "@ionic/app-scripts": "0.0.46",
     "@types/three": "0.0.27",
-    "typescript": "2.0.6"
+    "typescript": "2.1.4"
   },
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
@@ -43,8 +43,11 @@
     "cordova-plugin-console",
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "cordova-plugin-crosswalk-webview"
   ],
-  "cordovaPlatforms": [],
+  "cordovaPlatforms": [
+    "android"
+  ],
   "description": "Ionic application using https://github.com/artoolkit/jsartoolkit5 with TypeScript"
 }

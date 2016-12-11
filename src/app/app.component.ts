@@ -17,6 +17,10 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
       Splashscreen.hide();
+
+      window.URL = window.URL || (<any>window).webkitURL;
+      (<any>window).MediaDevices = (<any>window).MediaDevices || navigator.getUserMedia;
+      
     });
   }
 }

@@ -1,6 +1,3 @@
-<ion-content padding>
-  <video #videoElement src="assets/video/output_4.ogg" 
-    width="320" height="240" loop autoplay webkitPlaysinline controls="false"></video>
-
-  
+<ion-content class="no-scroll">
+  <video #videoElement autoplay preload='auto' [width]="width" [height]="height" webkitPlaysinline controls="false"></video>
 </ion-content>

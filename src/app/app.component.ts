@@ -19,8 +19,8 @@ export class MyApp {
       Splashscreen.hide();
 
       window.URL = window.URL || (<any>window).webkitURL;
-      (<any>window).MediaDevices = (<any>window).MediaDevices || navigator.getUserMedia;
-      
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      (<any>window).MediaDevices = (<any>window).MediaDevices || navigator.getUserMedia;      
     });
   }
 }

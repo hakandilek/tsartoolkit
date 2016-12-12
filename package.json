@@ -33,9 +33,10 @@
     "zone.js": "0.6.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.46",
+    "@ionic/app-scripts": "0.0.45",
     "@types/three": "0.0.27",
-    "typescript": "2.1.4"
+    "@types/webrtc": "0.0.21",
+    "typescript": "2.0.10"
   },
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
@@ -44,7 +45,7 @@
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard",
-    "cordova-plugin-crosswalk-webview"
+    "cordova-plugin-camera"
   ],
   "cordovaPlatforms": [
     "android"

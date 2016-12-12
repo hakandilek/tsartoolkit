@@ -29,17 +29,17 @@ export class HomePage {
 
     ngAfterViewInit() {
         let videoNative = this.videoElement.nativeElement;
-        let vw = this.width;
-        let vh = this.height;
+        let vw = 320;//TODO:this.width;
+        let vh = 240;//TODO:this.height;
 
         if ('MediaDevices' in window || navigator.getUserMedia) {
+            console.log(`using ${navigator.getUserMedia}`);
             navigator.mediaDevices.enumerateDevices()
                 .then((devices) => {
                     return devices
                         .filter((device) => device.kind === 'videoinput');
                 })
                 .then((devices) => {
-
                     navigator.getUserMedia(
                         { video: this.figureOutWhichCameraToUse(devices) },
                         (stream) => {
@@ -162,14 +162,18 @@ export class HomePage {
     }
 
     private figureOutWhichCameraToUse(devices): any {
+        console.log(`-> devices: ${JSON.stringify(devices)}`);
         let device = devices
+        /*
             .filter((device) => {
-                console.log(`device: ${device.kind}: ${device.label} = ${device.deviceId}`);
+                console.log(`device(${device.kind}): ${device.label} = ${device.deviceId}`);
                 return device.label.indexOf(CAMERA_TYPE.REAR) !== -1
             })
+            */
             .pop();
 
-        console.log(`-> device: ${device}`);
+        console.log(`-> device: ${JSON.stringify(device)}`);
+
         if (device) {
             return { deviceId: device.deviceId ? { exact: device.deviceId } : undefined };
         }

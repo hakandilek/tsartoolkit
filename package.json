@@ -45,7 +45,8 @@
     "cordova-plugin-device",
     "cordova-plugin-splashscreen",
     "ionic-plugin-keyboard",
-    "cordova-plugin-camera"
+    "cordova-plugin-camera",
+    "android-camera-permission"
   ],
   "cordovaPlatforms": [
     "android"

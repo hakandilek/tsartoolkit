@@ -62,7 +62,7 @@ export class HomePage {
                             camera.matrixAutoUpdate = false;
                             scene.add(camera);
 
-                            var arController = null;
+                            var arController: ARController = null;
                             // load camera parameters
                             var cameraParameters = new ARCameraParam();
                             cameraParameters.onload = () => {
@@ -85,17 +85,24 @@ export class HomePage {
                                 arController.detectMarker(videoNative);
                                 //arController.debugDraw();
                                 // update markerRoot with the found markers
-                                var markerNum = arController.getMarkerNum();
-                                if (markerNum > 0) {
+                                var markerCount = arController.getMarkerNum();
+                                if (markerCount > 0) {
                                     if (markerRoot.visible === false) {
                                         arController.getTransMatSquare(0 /* Marker index */, 1 /* Marker width */, markerMatrix);
                                     } else {
                                         arController.getTransMatSquareCont(0, 1, markerMatrix, markerMatrix);
                                     }
                                     arController.transMatToGLMat(markerMatrix, markerRoot.matrix.elements);
+                                    /*
+                                    for (let i = 0; i < markerCount; i++) {
+                                        let marker = arController.getMarker(i);
+                                        let id = marker.id >= 0 ? marker.id : (marker.idPatt >= 0 ? marker.idPatt : (marker.idMatrix));
+                                        console.debug(`marker ${id}: ${marker.area}@${marker.pos[0]}x${marker.pos[1]}`);
+                                    }
+                                    */
                                 }
                                 // objects visible IIF there is a marker
-                                if (markerNum > 0) {
+                                if (markerCount > 0) {
                                     markerRoot.visible = true;
                                 } else {
                                     markerRoot.visible = false;
@@ -103,24 +110,11 @@ export class HomePage {
                             });
 
                             // add a torus knot	in the scene
-                            var geometry = new CubeGeometry(1, 1, 1);
-                            var material = new MeshNormalMaterial({
-                                transparent: true,
-                                opacity: 0.5,
-                                side: DoubleSide
-                            });
-                            var mesh = new Mesh(geometry, material);
-                            mesh.position.z = geometry.parameters.height / 2
-                            markerRoot.add(mesh);
+                            var mesh = this.add3dObjectInto(markerRoot);
 
-                            var geometry2 = new TorusKnotGeometry(0.3, 0.1, 32, 32);
-                            material = new MeshNormalMaterial();
-                            mesh = new Mesh(geometry2, material);
-                            mesh.position.z = 0.5
-                            markerRoot.add(mesh);
-
+                            //rotate torus
                             renderFunctions.push(() => {
-                                mesh.rotation.x += 0.1
+                                mesh.rotation.x += 0.1;
                             });
 
                             // render the scene
@@ -129,17 +123,21 @@ export class HomePage {
                             });
 
                             // run the rendering loop
-                            var lastTimeMsec = null
+                            //var lastTimeMsec = null;
                             let animate = (nowMsec) => {
                                 // keep looping
                                 requestAnimationFrame(animate);
+                                /*
                                 // measure time
-                                lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60
-                                var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
-                                lastTimeMsec = nowMsec
+                                lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60;
+                                var deltaMsec = nowMsec - lastTimeMsec;
+                                this.fps = Math.round(1000 / deltaMsec);
+                                lastTimeMsec = nowMsec;
+                                //console.log(`fps : ${this.fps}`);
+                                */
                                 // call each update function
                                 renderFunctions.forEach((onRenderFct) => {
-                                    onRenderFct(deltaMsec / 1000, nowMsec / 1000)
+                                    onRenderFct();
                                 })
                             };
                             requestAnimationFrame(animate);
@@ -187,5 +185,24 @@ export class HomePage {
         renderer.domElement.style.transform = 'translate(-50%, -50%)';
         renderer.domElement.className = 'center';
         return renderer;
+    }
+
+    private add3dObjectInto(root: Object3D): Mesh {
+        var geometry = new CubeGeometry(1, 1, 1);
+        var material = new MeshNormalMaterial({
+            transparent: true,
+            opacity: 0.5,
+            side: DoubleSide
+        });
+        var mesh = new Mesh(geometry, material);
+        mesh.position.z = geometry.parameters.height / 2
+        root.add(mesh);
+
+        var geometry2 = new TorusKnotGeometry(0.3, 0.1, 32, 32);
+        material = new MeshNormalMaterial();
+        mesh = new Mesh(geometry2, material);
+        mesh.position.z = 0.5;
+        root.add(mesh);
+        return mesh;
     }
 }

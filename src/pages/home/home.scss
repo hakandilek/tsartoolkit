@@ -2,7 +2,17 @@ page-home {
   canvas {
     border: 1px solid #d44;
   }
+  video {
+    @extend .center;
+    //border: 1px solid #4d4;
+  }
   .content-md {
     background-color: black;
   }
+  .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }  
 }

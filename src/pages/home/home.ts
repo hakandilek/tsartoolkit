@@ -22,15 +22,15 @@ export class HomePage {
     stream: MediaStream;
 
     constructor(platform: Platform, public navCtrl: NavController) {
-        this.width = platform.width();
-        this.height = platform.height();
+        this.width = 640;//platform.width();
+        this.height = 480;//platform.height();
         console.log(`WxH: ${this.width}x${this.height}`);
     }
 
     ngAfterViewInit() {
         let videoNative = this.videoElement.nativeElement;
-        let vw = 320;//TODO:this.width;
-        let vh = 240;//TODO:this.height;
+        let vw = this.width;
+        let vh = this.height;
 
         if ('MediaDevices' in window || navigator.getUserMedia) {
             console.log(`using ${navigator.getUserMedia}`);
@@ -49,17 +49,11 @@ export class HomePage {
                             videoNative.src = url;
 
                             // init renderer
-                            var renderer = new WebGLRenderer({
-                                antialias: true,
-                                alpha: true
-                            });
-                            renderer.setClearColor(new Color('lightgrey'), 0)
-                            renderer.setSize(vw, vh);
-                            renderer.domElement.style.position = 'absolute'
-                            renderer.domElement.style.left = '8px'
+                            var renderer = this.createWebGLRenderer(vw, vh);
                             document.body.appendChild(renderer.domElement);
+
                             // array of functions for the rendering loop
-                            var onRenderFcts = [];
+                            var renderFunctions = [];
                             // init scene and camera
                             var scene = new Scene();
 
@@ -86,7 +80,7 @@ export class HomePage {
                             markerRoot.visible = false
                             scene.add(markerRoot);
 
-                            onRenderFcts.push(() => {
+                            renderFunctions.push(() => {
                                 if (!arController) return;
                                 arController.detectMarker(videoNative);
                                 //arController.debugDraw();
@@ -125,12 +119,12 @@ export class HomePage {
                             mesh.position.z = 0.5
                             markerRoot.add(mesh);
 
-                            onRenderFcts.push(() => {
+                            renderFunctions.push(() => {
                                 mesh.rotation.x += 0.1
                             });
 
                             // render the scene
-                            onRenderFcts.push(() => {
+                            renderFunctions.push(() => {
                                 renderer.render(scene, camera);
                             });
 
@@ -144,7 +138,7 @@ export class HomePage {
                                 var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
                                 lastTimeMsec = nowMsec
                                 // call each update function
-                                onRenderFcts.forEach((onRenderFct) => {
+                                renderFunctions.forEach((onRenderFct) => {
                                     onRenderFct(deltaMsec / 1000, nowMsec / 1000)
                                 })
                             };
@@ -164,12 +158,12 @@ export class HomePage {
     private figureOutWhichCameraToUse(devices): any {
         console.log(`-> devices: ${JSON.stringify(devices)}`);
         let device = devices
-        /*
-            .filter((device) => {
-                console.log(`device(${device.kind}): ${device.label} = ${device.deviceId}`);
-                return device.label.indexOf(CAMERA_TYPE.REAR) !== -1
-            })
-            */
+            /*
+                .filter((device) => {
+                    console.log(`device(${device.kind}): ${device.label} = ${device.deviceId}`);
+                    return device.label.indexOf(CAMERA_TYPE.REAR) !== -1
+                })
+                */
             .pop();
 
         console.log(`-> device: ${JSON.stringify(device)}`);
@@ -180,4 +174,18 @@ export class HomePage {
         return true;
     }
 
+    private createWebGLRenderer(width: number, height: number): WebGLRenderer {
+        var renderer = new WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
+        renderer.setClearColor(new Color('lightgrey'), 0)
+        renderer.setSize(width, height);
+        renderer.domElement.style.position = 'absolute'
+        renderer.domElement.style.top = '50%';
+        renderer.domElement.style.left = '50%';
+        renderer.domElement.style.transform = 'translate(-50%, -50%)';
+        renderer.domElement.className = 'center';
+        return renderer;
+    }
 }
